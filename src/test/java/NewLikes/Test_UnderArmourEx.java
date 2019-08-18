@@ -541,4 +541,296 @@ public class Test_UnderArmourEx {
         }
         */
     }
+
+    @Test
+    public void Test_02_Instagram() throws InterruptedException, IOException {
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        Thread.sleep(1000);
+        js.executeScript("window.scrollBy(0,600)"); //Scroll vertically down by 1000 pixels
+        Thread.sleep(1000);
+        //js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        //Thread.sleep(1500);
+        driver.manage().deleteAllCookies();
+
+        List<WebElement> images = driver.findElements(By.cssSelector("div[class='v1Nh3 kIKUG  _bz0w']"));
+
+        int count = 0;
+        for (int i = 0; i < images.size(); i++) {
+
+            WebElement a = (WebElement) driver.findElement(By.cssSelector("div[class='Nnq7C weEfm']"));
+            WebElement b = a.findElement(By.cssSelector("div[class='v1Nh3 kIKUG  _bz0w']"));
+
+            Thread.sleep(2000);
+            Actions actions = new Actions(driver);
+
+            if (count > 32) {
+                driver.manage().deleteAllCookies();
+                images2 = driver.findElements(By.cssSelector("div[class='v1Nh3 kIKUG  _bz0w']"));
+                actions.moveToElement(images2.get(i)).build().perform();
+            } else {
+                actions.moveToElement(images.get(i)).build().perform();
+            }
+
+            Thread.sleep(3000);
+            //driver.findElement(By.cssSelector("div[class='eLAPa']"))
+
+            //WebElement c = b.findElement(By.cssSelector("div[class='qn-0x']"));
+
+            Wait<WebDriver> wait = new WebDriverWait(driver, 10);
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("li[class='-V_eO']")));
+
+            WebElement d = null;
+            WebElement e = null;
+            if (driver.findElements(By.cssSelector("li[class='-V_eO']")).size() > 2) {
+                d = driver.findElements(By.cssSelector("li[class='-V_eO']")).get(2);
+                e = driver.findElements(By.cssSelector("li[class='-V_eO']")).get(3);
+            } else {
+                d = driver.findElement(By.cssSelector("li[class='-V_eO']"));
+
+                e = driver.findElements(By.cssSelector("li[class='-V_eO']")).get(1);
+            }
+
+            String likes = d.getText();
+
+            System.out.println("Likes " + likes);
+
+            String comments = e.getText();
+
+            System.out.println("Comments " + comments);
+
+            //driver.findElement(By.cssSelector("div[class='v1Nh3 kIKUG  _bz0w']")).click();
+            if (count > 32) {
+                images2.get(i).click();
+            } else {
+                images.get(i).click();
+            }
+
+            Thread.sleep(2000);
+            Wait<WebDriver> wait1 = new WebDriverWait(driver, 10);
+            wait1.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("time[class='_1o9PC Nzb55']")));
+
+            WebElement datee = driver.findElement(By.cssSelector("time[class='_1o9PC Nzb55']"));
+            String date = datee.getText();
+            System.out.println("Date " + date);
+
+
+            //String descriptionn;
+            if (driver.findElements((By.cssSelector("div[class='C4VMK']"))).size() != 0) {
+                WebElement descrip = driver.findElement(By.cssSelector("div[class='C4VMK']"));
+                descriptionn = descrip.getText();
+            }
+
+
+            if (driver.findElements((By.cssSelector("span[title='Edited']"))).size() != 0) {
+                WebElement description = driver.findElement(By.cssSelector("span[title='Edited']"));
+                descriptionn = description.getText();
+            }
+
+
+            System.out.println("Description " + descriptionn);
+
+            List<String> table = new ArrayList<String>();
+            table.add(likes);
+            table.add(comments);
+            table.add(date + "   ");
+            table.add(descriptionn);
+
+
+            //writing to  Excel
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            //XSSFWorkbook workbook = new XSSFWorkbook();
+            HSSFSheet sheet = workbook.createSheet("Employees sheet");
+            //XSSFSheet sheet = workbook.createSheet("Employees sheet");
+
+            int rownum = 0;
+            Cell cell;
+            Row row;
+
+
+            if (count == -1) {
+                //int rownum = 0;
+                int rownumTitle = 0;
+                row = sheet.createRow(rownumTitle);
+
+                // EmpNo
+                cell = row.createCell(0, CellType.STRING);
+                cell.setCellValue("Likes");
+                //cell.setCellStyle(style);
+
+
+                cell = row.createCell(1, CellType.STRING);
+                cell.setCellValue("Coments");
+                //cell.setCellStyle(style);
+                // Salary
+                cell = row.createCell(2, CellType.STRING);
+                cell.setCellValue("Date      ");
+                //cell.setCellStyle(style);
+                // Grade
+                cell = row.createCell(3, CellType.STRING);
+                cell.setCellValue("Description");
+                //cell.setCellStyle(style);
+                // Bonus
+                //cell = row.createCell(4, CellType.STRING);
+                //cell.setCellValue("Bonus");
+            }
+
+            if (count > 0) {
+
+                //File file1 = new File("E:\\demo\\UnderArmour.xls");
+                FileInputStream fsIP= new FileInputStream(new File("C:\\demo\\UnderArmourEx.xls"));//E:/demo/employee2.xls
+
+                HSSFWorkbook wb = new HSSFWorkbook(fsIP);
+                //Access the worksheet, so that we can update / modify it.
+                HSSFSheet worksheet = wb.getSheetAt(0);
+                // declare a Cell object
+                Cell cell1 = null;
+                // Access the second cell in second row to update the value
+                //cell1 = worksheet.getRow(1).getCell(1);
+                // Get current cell value value and overwrite the value
+                // cell1.setCellValue("OverRide existing value");
+
+                Row row1;
+                row1 = worksheet.createRow(37+i);
+                cell1 = row1.createCell(0, CellType.STRING);
+                //cell1.setCellValue("hi");
+
+
+                cell = row1.createCell(0, CellType.STRING);
+                cell.setCellValue(table.get(0));
+
+                cell = row1.createCell(1, CellType.STRING);
+                cell.setCellValue(table.get(1));
+
+                cell = row1.createCell(2, CellType.STRING);
+                cell.setCellValue(table.get(2));
+
+                cell = row1.createCell(3, CellType.STRING);
+                cell.setCellValue(table.get(3));
+
+                //Close the InputStream
+                fsIP.close();
+                //Open FileOutputStream to write updates
+                FileOutputStream output_file =new FileOutputStream(new File("C:\\demo\\UnderArmourEx.xls"));
+                //write changes
+                wb.write(output_file);
+                //close the stream
+                output_file.close();
+                //FileInputStream inputStream = new FileInputStream(file1);
+
+                //workbook = new HSSFWorkbook(inputStream);
+
+                //sheet = workbook.getSheetAt(0);
+
+                //int rownumData = i;
+
+                // row = sheet.getRow(1);
+                // row = sheet.getRow(42);
+                // row = sheet.getRow(1);
+
+                // int rownumData3 = i + 1 + 43;
+
+                //  row = sheet.createRow(rownumData3);
+
+
+
+
+                //cell = sheet.getRow(1).getCell(1);
+
+
+                //cell = row.createCell(0, CellType.STRING);
+                //cell.setCellValue(likes);
+
+                //cell = row.getCell(0);
+
+                //cell = row.getCell(1);
+
+                //cell = row.getCell(2);
+
+                //cell = row.getCell(3);
+
+            }
+            //data
+
+            if (count == 0) {
+
+
+                FileInputStream fsIP= new FileInputStream(new File("C:\\demo\\UnderArmourEx.xls"));//E:/demo/employee2.xls
+
+                HSSFWorkbook wb = new HSSFWorkbook(fsIP);
+                //Access the worksheet, so that we can update / modify it.
+                HSSFSheet worksheet = wb.getSheetAt(0);
+                // declare a Cell object
+                Cell cell1 = null;
+                // Access the second cell in second row to update the value
+                //cell1 = worksheet.getRow(1).getCell(1);
+                // Get current cell value value and overwrite the value
+                //cell1.setCellValue("OverRide existing value");
+
+                Row row1;
+                row1 = worksheet.createRow(i+37);
+                cell1 = row1.createCell(0, CellType.STRING);
+                //cell1.setCellValue("hi");
+
+                cell1 = row1.createCell(0, CellType.STRING);
+                cell1.setCellValue(table.get(0));
+
+                cell1 = row1.createCell(1, CellType.STRING);
+                cell1.setCellValue(table.get(1));
+
+                cell = row1.createCell(2, CellType.STRING);
+                cell.setCellValue(table.get(2));
+
+                cell1 = row1.createCell(3, CellType.STRING);
+                cell1.setCellValue(table.get(3));
+
+                //Close the InputStream
+                fsIP.close();
+                //Open FileOutputStream to write updates
+                FileOutputStream output_file =new FileOutputStream(new File("C:\\demo\\UnderArmourEx.xls"));
+                //write changes
+                wb.write(output_file);
+                //close the stream
+                output_file.close();
+
+                //int rownumData = i + 1;
+
+                //row = sheet.createRow(rownumData);
+
+
+            }
+
+
+            File file = new File("C:\\demo\\UnderArmourEx.xls");//E:/demo/employee2.xls
+            //file.getParentFile().mkdirs();
+
+            //FileOutputStream outFile = new FileOutputStream(file);
+            // workbook.write(outFile);
+            //outFile.close();
+
+            // try
+            //{
+            //     String filename= "E:/demo/employee"+i+".xls";
+            //      FileWriter outFile = new FileWriter(filename,true); //the true will append the new data
+            //     outFile.write("add a line\n");//appends the string to the file
+            //         outFile.close();
+            //    }
+            //   catch(IOException ioe)
+            //  {
+            //      System.err.println("IOException: " + ioe.getMessage());
+            //    }
+
+            System.out.println("Created file: " + file.getAbsolutePath());
+            count++;
+            driver.findElement(By.cssSelector("button[class='ckWGn']")).click();
+            //driver.findElement(By.cssSelector("div[class='Nnq7C weEfm']")).click();
+            //driver.navigate().refresh();
+            //Wait<WebDriver> wait2 = new WebDriverWait(driver, 10);
+            //wait2.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("div[class='Nnq7C weEfm']")));
+        }
+
+
+
+    }
 }
