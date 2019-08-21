@@ -37,7 +37,7 @@ public class BaseTest {
                String descriptionn = "";
                List<WebElement> images2 = null;
 
-               driver.navigate().to(url);//https://www.instagram.com/columbia1938/?hl=en
+               driver.navigate().to(url);
                Wait<WebDriver> wait0 = new WebDriverWait(driver, 30);
                wait0.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//span[contains(text(), 'Posts')]")));
                driver.manage().window().maximize();
@@ -303,7 +303,9 @@ public class BaseTest {
                    String followers = null;
                    if (driver.findElements((By.cssSelector("a[class='-nal3 ']"))).size() != 0){
                        WebElement followersParent = driver.findElements(By.cssSelector("a[class='-nal3 ']")).get(1);
-                       followers = followersParent.findElement(By.cssSelector("span")).getText();
+                       //followers = followersParent.findElement(By.cssSelector("span")).getText();
+                       WebElement followerss = followersParent.findElement(By.cssSelector("span[class='g47SY ']"));
+                       followers = followerss.getAttribute("title");
                        System.out.println("Followers " + followers);
                    }
 
@@ -376,6 +378,11 @@ public class BaseTest {
                        String date = datee.getText();
                        System.out.println("Date " + date);
 
+                       WebElement datee2 = driver.findElement(By.cssSelector("time[class='_1o9PC Nzb55']"));
+                       String date2 = datee2.getAttribute("datetime");
+                       date2 = date2.substring(0, 19);
+                       System.out.println("Date2 " + date2);
+
                        //url
                        String urll = driver.getCurrentUrl();
                        System.out.println("Url " + urll);
@@ -420,9 +427,12 @@ public class BaseTest {
                        List<String> table = new ArrayList<String>();
                        table.add(likes);
                        table.add(comments);
-                       table.add(date + "   ");
+                       table.add(date);
+                       table.add(date2);
                        table.add(urll);
                        table.add(descriptionn);
+                       table.add(followers);
+
 
 
                        //writing to  Excel
@@ -453,13 +463,18 @@ public class BaseTest {
                            cell = row.createCell(2, CellType.STRING);
                            cell.setCellValue("Date      ");
                            //cell.setCellStyle(style);
-                           // Grade
 
                            cell = row.createCell(3, CellType.STRING);
-                           cell.setCellValue("Url  " + followers + " followers");
+                           cell.setCellValue("Date 2     ");
 
                            cell = row.createCell(4, CellType.STRING);
+                           cell.setCellValue("Url");
+
+                           cell = row.createCell(5, CellType.STRING);
                            cell.setCellValue("Description");
+
+                           cell = row.createCell(6, CellType.STRING);
+                           cell.setCellValue("Followers "  + followers);
                            //cell.setCellStyle(style);
                            // Bonus
                            //cell = row.createCell(4, CellType.STRING);
@@ -507,6 +522,9 @@ public class BaseTest {
                            cell = row.createCell(4, CellType.STRING);
                            cell.setCellValue(table.get(4));
 
+                           cell = row.createCell(5, CellType.STRING);
+                           cell.setCellValue(table.get(5));
+
                            //cell = sheet.getRow(1).getCell(1);
 
 
@@ -544,11 +562,14 @@ public class BaseTest {
 
                            cell = row.createCell(4, CellType.STRING);
                            cell.setCellValue(table.get(4));
+
+                           cell = row.createCell(5, CellType.STRING);
+                           cell.setCellValue(table.get(5));
                        }
 
 
                         // Resize all columns to fit the content size
-                       for(int c = 0; c < table.size(); c++) {
+                       for(int c = 0; c < table.size()-2; c++) {
                            sheet.autoSizeColumn(c);
                        }
 
