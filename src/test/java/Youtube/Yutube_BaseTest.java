@@ -23,6 +23,7 @@ import java.util.List;
 public class Yutube_BaseTest {
     public WebDriver driver;
     WebDriverWait wait;
+    String coments;
 
     @BeforeClass
     void beforeClass(){
@@ -66,9 +67,20 @@ public class Yutube_BaseTest {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             js.executeScript("window.scrollBy(0,450)");
             //Thread.sleep(2000);
-            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("yt-formatted-string[class='count-text style-scope ytd-comments-header-renderer']")));
-            WebElement comentss = driver.findElement(By.cssSelector("yt-formatted-string[class='count-text style-scope ytd-comments-header-renderer']"));
-            String coments = comentss.getText();
+
+            //wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("yt-formatted-string[class='more-button style-scope ytd-video-secondary-info-renderer']")));
+            Thread.sleep(1000);
+            if(driver.findElements(By.cssSelector("yt-formatted-string[class='count-text style-scope ytd-comments-header-renderer']")).size() !=0) {
+
+                wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("yt-formatted-string[class='count-text style-scope ytd-comments-header-renderer']")));
+                WebElement comentss = driver.findElement(By.cssSelector("yt-formatted-string[class='count-text style-scope ytd-comments-header-renderer']"));
+                coments = comentss.getText();
+            }
+            else{
+
+            WebElement comentsDenied = driver.findElement(By.cssSelector("yt-formatted-string[class='style-scope ytd-message-renderer']"));
+            coments = comentsDenied.getText();
+            }
             //description
             WebElement descrip = driver.findElement(By.cssSelector("ytd-expander[class='style-scope ytd-video-secondary-info-renderer']"));
             String description = descrip.getText();
