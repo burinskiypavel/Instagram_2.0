@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -21,10 +22,14 @@ public class Test_GapEx {
 
     @BeforeClass
     void beforeClass(){
+        //baseTest.initialization();
+
         System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
-        driver = new ChromeDriver(chromeOptions);      // в ссылку присв. элем
+        driver = new ChromeDriver(chromeOptions);
 
+        //System.setProperty("webdriver.gecko.driver","driver/geckodriver.exe");
+        //driver = new FirefoxDriver();
 
     }
 
