@@ -59,7 +59,7 @@ public class Yutube_BaseTest extends ApplicationManager  {
 
             WebElement titlee = driver.findElement(By.cssSelector("yt-formatted-string[class='style-scope ytd-video-primary-info-renderer']"));
             String title = titlee.getText();
-            String date = driver.findElement(By.cssSelector("span[slot='date']")).getText();
+            String date = driver.findElement(By.id("date")).getText();
             String likes = driver.findElement(By.cssSelector("yt-formatted-string[class='style-scope ytd-toggle-button-renderer style-text']")).getText();
             String url = driver.getCurrentUrl();
 
@@ -282,7 +282,7 @@ public class Yutube_BaseTest extends ApplicationManager  {
 
             WebElement titlee = driver.findElement(By.cssSelector("yt-formatted-string[class='style-scope ytd-video-primary-info-renderer']"));
             String title = titlee.getText();
-            String date = driver.findElement(By.cssSelector("span[slot='date']")).getText();
+            String date = driver.findElement(By.id("date")).getText();
             String likes = driver.findElement(By.cssSelector("yt-formatted-string[class='style-scope ytd-toggle-button-renderer style-text']")).getText();
             String url = driver.getCurrentUrl();
 

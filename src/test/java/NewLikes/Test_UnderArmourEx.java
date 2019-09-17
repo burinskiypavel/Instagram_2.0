@@ -556,8 +556,10 @@ public class Test_UnderArmourEx {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
         Thread.sleep(1000);
+        js.executeScript("window.scrollBy(0,1000)"); //Scroll vertically down by 1000 pixels
+
         //js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-        //Thread.sleep(1500);
+        Thread.sleep(1500);
         List<WebElement> images = driver.findElements(By.cssSelector("div[class='v1Nh3 kIKUG  _bz0w']"));
 
         int count = 0;
@@ -851,7 +853,7 @@ public class Test_UnderArmourEx {
     }
 
 
-    @Test
+    @Test(enabled = false)
     public void Test_03New_Instagram() throws InterruptedException, IOException {
 
 
