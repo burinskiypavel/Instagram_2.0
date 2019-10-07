@@ -12,7 +12,7 @@ public class ApplicationManager {
 
     public void initialization() {
 
-        String browser = BrowserType.FIREFOX;
+        String browser = BrowserType.CHROME;
         if(browser == BrowserType.FIREFOX){
             //driver = new FirefoxDriver();
             //System.setProperty("webdriver.firefox.marionette","C:\\geckodriver.exe");
