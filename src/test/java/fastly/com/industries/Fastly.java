@@ -1,4 +1,4 @@
-package New;
+package fastly.com.industries;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class New {
+public class Fastly {
     public WebDriver driver;
     WebDriverWait wait;
 
@@ -46,6 +46,7 @@ public class New {
     public void Test_01_New() throws IOException {
     driver.navigate().to("https://www.fastly.com/industries");
     wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id("menu--utility-sign-up-mobile")));
+
 
     List<WebElement> list = new ArrayList<WebElement>();
     List<String> currentList = new ArrayList<>();
